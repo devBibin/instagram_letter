@@ -1,0 +1,15 @@
+Полное имя:  {{input.full_name}}<br>
+ИД юзера:   {{input.user_id}}<br>
+Количество подписчиков:   {{input.followers}}<br>
+Количество подписок:    {{input.follows}}<br>
+Количество публикаций:    {{input.publication_count}}<br>
+<br>
+Топ-записи по лайкам<br>
+{%for m in input.top_likes%}
+{{m.id}} {{m.likes.count}} <a href={{m.link}}>{{m.created_time}}</a><br>
+{%endfor%}
+<br>
+Топ-записи по лайкам<br>
+{%for m in input.top_comments%}
+{{m.id}} {{m.comments.count}} <a href={{m.link}}>{{m.created_time}}</a><br>
+{%endfor%}
