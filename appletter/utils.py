@@ -7,7 +7,6 @@ TOKEN = "5357446710.0be8de7.e8bbb791ba7f4ffdbc44ef1977cd49a3"
 
 def get_all_media(user_id, cnt):
     r = requests.get("https://api.instagram.com/v1/users/"+user_id+"/media/recent/?count=20&access_token="+TOKEN)
-    print r.json()["meta"]["code"]
     if (r.json()["meta"]["code"] == 200):
         media = []
         recievied_count = 0
