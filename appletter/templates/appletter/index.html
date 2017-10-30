@@ -9,7 +9,7 @@
 {{m.id}} {{m.likes.count}} <a href={{m.link}}>{{m.created_time}}</a><br>
 {%endfor%}
 <br>
-Топ-записи по лайкам<br>
+Топ-записи по комментариям<br>
 {%for m in input.top_comments%}
 {{m.id}} {{m.comments.count}} <a href={{m.link}}>{{m.created_time}}</a><br>
 {%endfor%}
