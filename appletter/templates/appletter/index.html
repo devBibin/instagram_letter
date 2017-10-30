@@ -3,7 +3,11 @@
 Количество подписчиков:   {{input.followers}}<br>
 Количество подписок:    {{input.follows}}<br>
 Количество публикаций:    {{input.publication_count}}<br>
-<br>
+<br><br>
+Среднее количество лайков за все время:     <b>{{input.average_likes}}</b><br>
+Среднее количество комментариев за все время:     <b>{{input.average_comments}}</b><br>
+Среднее количество просмотров за все время:    <b> {{input.average_views}}</b><br>
+<br><br>
 Топ-записи по лайкам<br>
 {%for m in input.top_likes%}
 {{m.id}} {{m.likes.count}} <a href={{m.link}}>{{m.created_time}}</a><br>
@@ -13,3 +17,12 @@
 {%for m in input.top_comments%}
 {{m.id}} {{m.comments.count}} <a href={{m.link}}>{{m.created_time}}</a><br>
 {%endfor%}
+<br>
+Топ-видео пользователя<br>
+{%for m in input.top_views%}
+{{m.id}} {{m.views.count}} <a href={{m.link}}>{{m.created_time}}</a><br>
+{%endfor%}
+<br>
+<br>
+<br>
+Время расчетов: {{input.total_time}}

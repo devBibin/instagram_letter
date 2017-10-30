@@ -17,6 +17,7 @@ def create_letter(request, user_name):
         data = r.json()
         common_data = data["user"]
 
+        start = time.time()
         d = {}
 
         d["user_id"] = common_data["id"]
@@ -29,8 +30,15 @@ def create_letter(request, user_name):
         if (media == None):
             return HttpResponse("Profile is private")
 
+        d["average_likes"] = get_mediana(media, "likes")
+        d["average_comments"] = get_mediana(media, "comments")
+        d["average_views"] = get_mediana(get_videos(media), "views")
+
         d["top_likes"] = get_top(media, "likes", 5)
         d["top_comments"] = get_top(media, "comments", 5)
+        d["top_views"] = get_top(get_videos(media), "views", 5)
+
+        d["total_time"] = datetime.datetime.fromtimestamp(time.time()-start).strftime('%M:%S.%f')
 
         return render(request, 'appletter/index.html', {"input":d})
     else:
