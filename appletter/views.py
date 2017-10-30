@@ -8,7 +8,7 @@ import requests
 import json 
 import datetime
 import time
-from utils import *
+from utils import get_all_media, get_top
 
 
 def create_letter(request, user_name):
