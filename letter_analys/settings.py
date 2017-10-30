@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 import os
 #Use the following live settings to build on Travis CI
 if 'TRAVIS' in os.environ:
+    print "I M TRAVIS"
     SECRET_KEY = "SecretKeyForUseOnTravis"
     DEBUG = False
     TEMPLATE_DEBUG = True
@@ -28,6 +29,7 @@ if 'TRAVIS' in os.environ:
         }
     }
 else:
+    print "I M AUTHOR"
     # SECURITY WARNING: keep the secret key used in production secret!
     SECRET_KEY = 'o7u%rzuar0@z8z3m#!0iv#o5k#b_rbs$rqg+zira3w7j%m+ko('
     # SECURITY WARNING: don't run with debug turned on in production!
