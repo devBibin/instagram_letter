@@ -1,10 +1,10 @@
 from utils import *
+import numpy as np
+from scipy.interpolate import spline
 import matplotlib
 matplotlib.use('Agg')
 
 from matplotlib import pyplot as plt
-from scipy.interpolate import spline
-import numpy as np
 
 def create_activity_dinamics(media, type, interval_count, username, clr="b"):
 	if (len(media) == 0):

@@ -1,3 +1,5 @@
+numpy==1.9.2
+scipy==0.15.1
 backports.functools-lru-cache==1.4
 certifi==2017.7.27.1
 chardet==3.0.4
@@ -6,7 +8,6 @@ Django==1.11.6
 gunicorn==19.7.1
 idna==2.6
 matplotlib==2.1.0
-numpy==1.13.3
 olefile==0.44
 Pillow==4.3.0
 psycopg2==2.7.3.1
@@ -14,7 +15,6 @@ pyparsing==2.2.0
 python-dateutil==2.6.1
 pytz==2017.2
 requests==2.18.4
-scipy==1.0.0
 six==1.11.0
 subprocess32==3.2.7
 urllib3==1.22
