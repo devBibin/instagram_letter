@@ -1,7 +1,6 @@
 from utils import *
 from scipy.interpolate import spline
 from matplotlib import pyplot as plt
-from django.conf import settings
 
 import numpy as np
 import os
