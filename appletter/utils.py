@@ -2,6 +2,7 @@ import requests
 import json 
 import datetime
 import time
+import urllib
 
 TOKEN = "5357446710.0be8de7.e8bbb791ba7f4ffdbc44ef1977cd49a3"
 
@@ -28,13 +29,18 @@ def get_all_media(user_id, cnt):
     else:
         return None
 
+    json_to_date(media)
     return media
 
-def get_top(media, type, count):
-    if (count > len(media)):
-        count = len(media)
-    sorted_list = sorted(media, key=lambda k: int(k[type]["count"]), reverse = True)
-    return json_to_date(sorted_list[0:count])
+def get_top(media, type, count, username):
+    if (len(media) != 0):
+        if (count > len(media)):
+            count = len(media)
+        sorted_list = sorted(media, key=lambda k: int(k[type]["count"]), reverse = True)
+        urllib.urlretrieve(sorted_list[0]["images"]["standard_resolution"]["url"], "appletter/static/appletter/"+type+"_"+username+".jpg")
+        return sorted_list[0:count]
+    else:
+        return []
 
 def get_mediana(media, type):
     if (len(media) == 0):
@@ -46,11 +52,10 @@ def get_mediana(media, type):
 
 def json_to_date(media):
     for i in range(len(media)):
-        media[i]["created_time"] = get_formated_time(int(media[i]["created_time"]))
-    return media
+        media[i]["created_time"] = get_formated_time(float(media[i]["created_time"]))
 
 def get_formated_time(time):
-    return datetime.datetime.fromtimestamp(int(time)).strftime('%Y-%m-%d %H:%M:%S')
+    return datetime.datetime.fromtimestamp(time).strftime('%Y-%m-%d %H:%M:%S')
 
 def get_videos(media):
     videos = []
