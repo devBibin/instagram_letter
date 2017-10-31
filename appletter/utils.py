@@ -29,7 +29,6 @@ def get_all_media(user_id, cnt):
     else:
         return None
 
-    json_to_date(media)
     return media
 
 def get_top(media, type, count, username):
@@ -50,12 +49,8 @@ def get_mediana(media, type):
         s = s + int(m[type]["count"])
     return s/len(media)
 
-def json_to_date(media):
-    for i in range(len(media)):
-        media[i]["created_time"] = get_formated_time(float(media[i]["created_time"]))
-
-def get_formated_time(time):
-    return datetime.datetime.fromtimestamp(time).strftime('%Y-%m-%d %H:%M:%S')
+def get_formated_time(time, fmt = '%Y-%m-%d'):
+    return datetime.datetime.fromtimestamp(time).strftime(fmt)
 
 def get_videos(media):
     videos = []
@@ -70,3 +65,18 @@ def get_views(m):
         return r.json()["graphql"]["shortcode_media"]["video_view_count"]
     else:
         return -1
+
+def iter_baskets_contiguous(items, maxbaskets):
+    '''
+    generates balanced baskets from iterable, contiguous contents
+    provide item_count if providing a iterator that doesn't support len()
+    '''
+    item_count = len(items)
+    baskets = min(item_count, maxbaskets)
+    items = iter(items)
+    floor = item_count // baskets 
+    ceiling = floor + 1
+    stepdown = item_count % baskets
+    for x_i in xrange(baskets):
+        length = ceiling if x_i < stepdown else floor
+        yield [items.next() for _ in xrange(length)]

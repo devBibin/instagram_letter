@@ -1,17 +1,29 @@
 {% load static %}
-<img src="{% static input.top_likes_img %}" alt="My image" height="42" width="42"/><br>
-{% with input.top_likes|first as first_doc %}{{ first_doc.likes.count }}{% endwith %}&hearts;<br>
+Full name:  {{input.full_name}}<br>
 
-<img src="{% static input.top_comments_img %}" alt="My image" height="42" width="42"/>
-Полное имя:  {{input.full_name}}<br>
-ИД юзера:   {{input.user_id}}<br>
-Количество подписчиков:   {{input.followers}}<br>
-Количество подписок:    {{input.follows}}<br>
-Количество публикаций:    {{input.publication_count}}<br>
+User ID:   {{input.user_id}}<br>
+Followers:   {{input.followers}}<br>
+Followed:    {{input.follows}}<br>
+Publications:    {{input.publication_count}}<br>
+<br>
+Average likes:     <b>{{input.average_likes}}</b><br>
+Average comments:     <b>{{input.average_comments}}</b><br>
+Average views:    <b> {{input.average_views}}</b><br>
+<br>
+Top-1 likes:<br>
+{% with input.top_likes|first as first_doc %}{{ first_doc.likes.count }}{% endwith %}<br>
+<img src="{% static input.top_likes_img %}" alt="My image" height="256" width="256"/><br>
+
+
+Top-1 comments<br>
+{% with input.top_comments|first as first_doc %}{{ first_doc.comments.count }}{% endwith %}<br>
+<img src="{% static input.top_comments_img %}" alt="My image" height="256" width="256"/><br>
+
+Activity graphics<br>
+<img src="{% static input.activity_likes_graph %}" alt="My image" height="240" width="320"/><br>
+
 <br><br>
-Среднее количество лайков за все время:     <b>{{input.average_likes}}</b><br>
-Среднее количество комментариев за все время:     <b>{{input.average_comments}}</b><br>
-Среднее количество просмотров за все время:    <b> {{input.average_views}}</b><br>
+
 <br><br>
 <br>
 Топ-записи по лайкам<br>

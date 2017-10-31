@@ -9,6 +9,7 @@ import json
 import datetime
 import time
 from appletter.utils import *
+from appletter.graphics import *
 
 
 def create_letter(request, user_name):
@@ -23,6 +24,7 @@ def create_letter(request, user_name):
         d["top_likes_img"] = "appletter/likes_"+user_name+".jpg"
         d["top_comments_img"] = "appletter/comments_"+user_name+".jpg"
         d["top_views_img"] = "appletter/views_"+user_name+".jpg"
+        d["activity_likes_graph"] = "appletter/grapdyn_likes_"+user_name+".jpg"
 
         d["username"] = user_name
         d["user_id"] = common_data["id"]
@@ -43,8 +45,9 @@ def create_letter(request, user_name):
         d["top_comments"] = get_top(media, "comments", 5, user_name)
         d["top_views"] = get_top(get_videos(media), "views", 5, user_name)
 
-        d["total_time"] = datetime.datetime.fromtimestamp(time.time()-start).strftime('%M:%S.%f')
+        d["total_time"] = get_formated_time(time.time()-start, '%M:%S.%f')
 
+        create_activity_dinamics(media, "likes", 5, user_name)
         return render(request, 'appletter/index.html', {"input":d})
     else:
         return HttpResponse("User not found")
