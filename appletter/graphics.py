@@ -1,14 +1,18 @@
 from utils import *
 import numpy as np
+import os
 from scipy.interpolate import spline
 import matplotlib
 matplotlib.use('Agg')
 
 from matplotlib import pyplot as plt
 
+BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+
 def create_activity_dinamics(media, type, interval_count, username, clr="b"):
 	if (len(media) == 0):
 		return False
+	
 	sorted_media = sorted(media, key=lambda k: k["created_time"], reverse = False)
 	splitted_list = list(iter_baskets_contiguous(sorted_media,interval_count))
 	
@@ -32,10 +36,12 @@ def create_activity_dinamics(media, type, interval_count, username, clr="b"):
 	plt.title("Dynamic of "+type+" on your profile")
 	plt.xlabel('Time')
 	plt.ylabel('Average count of '+type)
-	plt.ylim(zero_or_positive(min(y_sm) - delta * 0.2), max(y_sm) + delta * 0.2)
+	
+
 
 	plt.plot(x_smooth, y_smooth, color=clr)
-	plt.savefig("appletter/static/appletter/grapdyn_"+type+"_"+username+".jpg", dpi=199, facecolor='w', edgecolor='w',
+	plt.ylim(zero_or_positive(min(y_sm) - delta * 0.2), max(y_sm) + delta * 0.2)
+	plt.savefig(os.path.join(BASE_DIR, "appletter/static/appletter/grapdyn_"+type+"_"+username+".jpg"), dpi=199, facecolor='w', edgecolor='w',
         orientation='portrait', papertype=None, format=None,
         transparent=False, bbox_inches=None, pad_inches=0.1,
         frameon=None)
