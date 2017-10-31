@@ -10,7 +10,11 @@ import os
 
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
+PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
+STATICFILES_DIRS = (
+    os.path.join(PROJECT_ROOT, 'static'),
+    os.path.join(PROJECT_ROOT, 'appletter/static'),
+    )
 
 def create_activity_dinamics(media, type, interval_count, username, clr="b"):
 	if (len(media) == 0):
@@ -44,7 +48,7 @@ def create_activity_dinamics(media, type, interval_count, username, clr="b"):
 
 	plt.plot(x_smooth, y_smooth, color=clr)
 	plt.ylim(min(y_sm) - delta * 0.4, max(y_sm) + delta * 0.4)
-	plt.savefig("grapdyn_"+type+"_"+username+".jpg",
+	plt.savefig(STATICFILES_DIRS[1]+ "/grapdyn_"+type+"_"+username+".jpg",
 		dpi=199, facecolor='w', edgecolor='w',
         orientation='portrait', papertype=None, format=None,
         transparent=False, bbox_inches=None, pad_inches=0.1,
