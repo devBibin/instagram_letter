@@ -42,8 +42,9 @@ def create_activity_dinamics(media, type, interval_count, username, clr="b"):
 
 
 	plt.plot(x_smooth, y_smooth, color=clr)
-	plt.ylim(zero_or_positive(min(y_sm) - delta * 0.2), max(y_sm) + delta * 0.2)
-	plt.savefig(os.path.join(BASE_DIR,"appletter/static/appletter/grapdyn_"+type+"_"+username+".jpg"), dpi=199, facecolor='w', edgecolor='w',
+	plt.ylim(min(y_sm) - delta * 0.2, max(y_sm) + delta * 0.2)
+	plt.savefig("grapdyn_"+type+"_"+username+".jpg",
+		dpi=199, facecolor='w', edgecolor='w',
         orientation='portrait', papertype=None, format=None,
         transparent=False, bbox_inches=None, pad_inches=0.1,
         frameon=None)

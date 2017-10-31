@@ -80,9 +80,3 @@ def iter_baskets_contiguous(items, maxbaskets):
     for x_i in xrange(baskets):
         length = ceiling if x_i < stepdown else floor
         yield [items.next() for _ in xrange(length)]
-
-def zero_or_positive(x):
-    if (x < 0):
-        return 0
-    else:
-        return x
