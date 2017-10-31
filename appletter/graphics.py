@@ -1,12 +1,13 @@
 from utils import *
+import matplotlib
+matplotlib.use('Agg')
 from scipy.interpolate import spline
 from matplotlib import pyplot as plt
 
 import numpy as np
 import os
 
-import matplotlib
-matplotlib.use('Agg')
+
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -42,8 +43,8 @@ def create_activity_dinamics(media, type, interval_count, username, clr="b"):
 
 
 	plt.plot(x_smooth, y_smooth, color=clr)
-	plt.ylim(min(y_sm) - delta * 0.2, max(y_sm) + delta * 0.2)
-	plt.savefig("static/appletter/grapdyn_"+type+"_"+username+".jpg",
+	plt.ylim(min(y_sm) - delta * 0.4, max(y_sm) + delta * 0.4)
+	plt.savefig(BASE_DIR+"/appletter/static/appletter/grapdyn_"+type+"_"+username+".jpg",
 		dpi=199, facecolor='w', edgecolor='w',
         orientation='portrait', papertype=None, format=None,
         transparent=False, bbox_inches=None, pad_inches=0.1,
