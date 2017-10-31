@@ -35,11 +35,11 @@ def get_top(media, type, count, username):
     if (len(media) != 0):
         if (count > len(media)):
             count = len(media)
+        
         sorted_list = sorted(media, key=lambda k: int(k[type]["count"]), reverse = True)
-        urllib.urlretrieve(sorted_list[0]["images"]["standard_resolution"]["url"], "appletter/static/appletter/"+type+"_"+username+".jpg")
         return sorted_list[0:count]
     else:
-        return []
+        return None
 
 def get_mediana(media, type):
     if (len(media) == 0):
@@ -80,3 +80,9 @@ def iter_baskets_contiguous(items, maxbaskets):
     for x_i in xrange(baskets):
         length = ceiling if x_i < stepdown else floor
         yield [items.next() for _ in xrange(length)]
+
+def zero_or_positive(x):
+    if (x < 0):
+        return 0
+    else:
+        return x

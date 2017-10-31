@@ -1,29 +1,55 @@
 {% load static %}
+Username: {{input.username}}<br>
 Full name:  {{input.full_name}}<br>
-
 User ID:   {{input.user_id}}<br>
 Followers:   {{input.followers}}<br>
 Followed:    {{input.follows}}<br>
 Publications:    {{input.publication_count}}<br>
-<br>
-Average likes:     <b>{{input.average_likes}}</b><br>
-Average comments:     <b>{{input.average_comments}}</b><br>
-Average views:    <b> {{input.average_views}}</b><br>
-<br>
-Top-1 likes:<br>
-{% with input.top_likes|first as first_doc %}{{ first_doc.likes.count }}{% endwith %}<br>
-<img src="{% static input.top_likes_img %}" alt="My image" height="256" width="256"/><br>
-
-
-Top-1 comments<br>
-{% with input.top_comments|first as first_doc %}{{ first_doc.comments.count }}{% endwith %}<br>
-<img src="{% static input.top_comments_img %}" alt="My image" height="256" width="256"/><br>
-
-Activity graphics<br>
-<img src="{% static input.activity_likes_graph %}" alt="My image" height="240" width="320"/><br>
 
 <br><br>
 
+Average likes:     <b>{{input.average_likes}}</b><br>
+Average comments:     <b>{{input.average_comments}}</b><br>
+Average views:    <b> {{input.average_views}}</b><br>
+
+<br><br>
+
+<br>
+Top-1 likes:<br>
+{{ input.top1_likes.likes.count }}<br>
+<img src="{{input.top1_likes.images.standard_resolution.url}}" alt="My image"/><br>
+
+<br>
+Top-1 comments:<br>
+{{ input.top1_comments.comments.count }}<br>
+<img src="{{input.top1_comments.images.standard_resolution.url}}" alt="My image"/><br>
+
+{%if input.top1_views%}
+<br>
+Top-1 views:<br>
+{{ input.top1_views.views.count }}<br>
+<img src="{{input.top1_views.images.standard_resolution.url}}" alt="My image"/><br>
+{%endif%}
+
+<br><br>
+
+Activity graphics<br>
+<br>
+Likes activity graphics<br>
+<img src="{% static input.activity_likes_graph %}" alt="My image"/><br>
+
+<br>
+Comments activity graphics<br>
+<img src="{% static input.activity_comments_graph %}" alt="My image"/><br>
+
+{%if input.activity_views_graph%}
+<br>
+Views activity graphics<br>
+<img src="{% static input.activity_views_graph %}" alt="My image"/><br>
+{%endif%}
+
+
+<br><br>
 <br><br>
 <br>
 Топ-записи по лайкам<br>
@@ -43,4 +69,5 @@ Activity graphics<br>
 <br>
 <br>
 <br>
+Время формирования массива: {{input.load_time}}<br>
 Время расчетов: {{input.total_time}}
