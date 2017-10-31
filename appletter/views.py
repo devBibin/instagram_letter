@@ -71,7 +71,7 @@ def create_letter(request, user_name):
 
 
         # Create likes dynamics graph
-        create_activity_dinamics(media, "likes", GRAPHS_INTERVAL_COUNT, user_name, "r")
+        #create_activity_dinamics(media, "likes", GRAPHS_INTERVAL_COUNT, user_name, "r")
         d["activity_likes_graph"] = "appletter/grapdyn_likes_"+user_name+".jpg"
 
         # Create comments dynamic graph
