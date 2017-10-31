@@ -71,16 +71,16 @@ def create_letter(request, user_name):
 
 
         # Create likes dynamics graph
-        #create_activity_dinamics(media, "likes", GRAPHS_INTERVAL_COUNT, user_name, "r")
+        create_activity_dinamics(media, "likes", GRAPHS_INTERVAL_COUNT, user_name, "r")
         d["activity_likes_graph"] = "appletter/grapdyn_likes_"+user_name+".jpg"
 
         # Create comments dynamic graph
-        #create_activity_dinamics(media, "comments", GRAPHS_INTERVAL_COUNT, user_name, "b")
+        create_activity_dinamics(media, "comments", GRAPHS_INTERVAL_COUNT, user_name, "b")
         d["activity_comments_graph"] = "appletter/grapdyn_comments_"+user_name+".jpg"
         
         # Create views dynamic graph
         if (len(get_videos(media)) > GRAPHS_INTERVAL_COUNT):
-        #    create_activity_dinamics(get_videos(media), "views", GRAPHS_INTERVAL_COUNT, user_name, "y")
+            create_activity_dinamics(get_videos(media), "views", GRAPHS_INTERVAL_COUNT, user_name, "y")
             d["activity_views_graph"] = "appletter/grapdyn_views_"+user_name+".jpg"
 
         # Total time of computing

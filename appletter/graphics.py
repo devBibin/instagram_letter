@@ -1,11 +1,15 @@
 from utils import *
+from scipy.interpolate import spline
+from matplotlib import pyplot as plt
+from django.conf import settings
+
 import numpy as np
 import os
-from scipy.interpolate import spline
+
 import matplotlib
 matplotlib.use('Agg')
 
-from matplotlib import pyplot as plt
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 def create_activity_dinamics(media, type, interval_count, username, clr="b"):
@@ -40,7 +44,7 @@ def create_activity_dinamics(media, type, interval_count, username, clr="b"):
 
 	plt.plot(x_smooth, y_smooth, color=clr)
 	plt.ylim(zero_or_positive(min(y_sm) - delta * 0.2), max(y_sm) + delta * 0.2)
-	plt.savefig("appletter/static/appletter/grapdyn_"+type+"_"+username+".jpg", dpi=199, facecolor='w', edgecolor='w',
+	plt.savefig(os.path.join(BASE_DIR,"appletter/static/appletter/grapdyn_"+type+"_"+username+".jpg"), dpi=199, facecolor='w', edgecolor='w',
         orientation='portrait', papertype=None, format=None,
         transparent=False, bbox_inches=None, pad_inches=0.1,
         frameon=None)
