@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseForbidden, HttpResponseBadRequest
 from django.shortcuts import get_object_or_404, render
 
 import requests
@@ -34,13 +34,13 @@ def create_letter(request, user_name):
 
         # Count of publications is not enough (< defined count of pubs)
         if (d["publication_count"] < MIN_PUBS_COUNT):
-            return HttpResponse("Not enough publications: "+ d["publication_count"])
+            return HttpResponseForbidden("Not enough publications: "+ str(d["publication_count"]))
 
 
-        media = get_all_media(d["user_id"], d["publication_count"])
+        media = get_all_media(d["user_id"])
         # Profile doesn't exist
         if (media == None):
-            return HttpResponse("Profile is private or doesn't exist")
+            return HttpResponseForbidden("Profile is private")
         
         # Total of creating array
         d["load_time"] = get_formated_time(time.time()-start, '%M:%S.%f')
@@ -87,6 +87,6 @@ def create_letter(request, user_name):
         d["total_time"] = get_formated_time(time.time()-start, '%M:%S.%f')
         return render(request, 'appletter/index.html', {"input":d})
     else:
-        return HttpResponse("User not found")
+        return HttpResponseBadRequest("Haven't found profile")
 
 

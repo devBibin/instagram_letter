@@ -37,7 +37,7 @@ else:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
-            'NAME': 'db_courses_test',
+            'NAME': "letter_analys" ,
             'USER': 'vladimir',
             'PASSWORD': '000',
             'HOST': '127.0.0.1',

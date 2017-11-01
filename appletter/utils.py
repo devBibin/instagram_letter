@@ -6,8 +6,8 @@ import urllib
 
 TOKEN = "5357446710.0be8de7.e8bbb791ba7f4ffdbc44ef1977cd49a3"
 
-def get_all_media(user_id, cnt):
-    r = requests.get("https://api.instagram.com/v1/users/"+user_id+"/media/recent/?count=20&access_token="+TOKEN)
+def get_all_media(user_id):
+    r = requests.get("https://api.instagram.com/v1/users/"+user_id+"/media/recent/?count=33&access_token="+TOKEN)
     if (r.json()["meta"]["code"] == 200):
         media = []
         recievied_count = 0
