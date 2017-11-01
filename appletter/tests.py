@@ -23,7 +23,7 @@ class CreateLetterTestCase(unittest.TestCase):
         response = create_letter(request, username)
         # Check.
         self.assertEqual(response.status_code, 403)
-        self.assertEqual(response.content, u"Profile is private")
+        self.assertEqual(response.content, u"Not enough publicatins: 0")
 
     def test_private_profile(self):
         """hello view actually tells 'Hello'."""
