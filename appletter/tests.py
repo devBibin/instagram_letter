@@ -52,6 +52,3 @@ class UtilsTestCase(unittest.TestCase):
 
 	def test_media_count_less_than_step(self):
 		self.assertEqual(len(get_all_media(str(5781823989))), 10)
-
-	def test_media_no_id(self):
-		self.assertEqual(get_all_media(str(-1)), None)
