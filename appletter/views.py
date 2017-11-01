@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 
 from django.http import HttpResponse, HttpResponseForbidden, HttpResponseBadRequest
 from django.shortcuts import get_object_or_404, render
-
+from django.conf import settings
 import requests
 import json 
 import datetime
@@ -34,13 +34,13 @@ def create_letter(request, user_name):
 
         # Count of publications is not enough (< defined count of pubs)
         if (d["publication_count"] < MIN_PUBS_COUNT):
-            return HttpResponseForbidden("Not enough publications: "+ str(d["publication_count"]))
+            return HttpResponseForbidden(u"Not enough publications: "+ str(d["publication_count"]))
 
 
         media = get_all_media(d["user_id"])
         # Profile doesn't exist
         if (media == None):
-            return HttpResponseForbidden("Profile is private")
+            return HttpResponseForbidden(u"Profile is private")
         
         # Total of creating array
         d["load_time"] = get_formated_time(time.time()-start, '%M:%S.%f')
@@ -62,13 +62,6 @@ def create_letter(request, user_name):
         if (d["top_views"] and len(d["top_views"]) > 2):
             d["top1_views"] = d["top_views"][0]
 
-        
-        # Set paths for each media
-        d["top_likes_img"] = "appletter/likes_"+user_name+".jpg"
-        d["top_comments_img"] = "appletter/comments_"+user_name+".jpg"
-        if (d["top_views"] and len(d["top_views"]) > 2):
-            d["top_views_img"] = "appletter/views_"+user_name+".jpg"
-
 
         # Create likes dynamics graph
         create_activity_dinamics(media, "likes", GRAPHS_INTERVAL_COUNT, user_name, "r")
@@ -87,6 +80,6 @@ def create_letter(request, user_name):
         d["total_time"] = get_formated_time(time.time()-start, '%M:%S.%f')
         return render(request, 'appletter/index.html', {"input":d})
     else:
-        return HttpResponseBadRequest("Haven't found profile")
+        return HttpResponseBadRequest(u"Haven't found profile")
 
 
