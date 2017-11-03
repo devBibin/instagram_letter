@@ -14,6 +14,7 @@ from appletter.graphics import *
 
 MIN_PUBS_COUNT = 5
 GRAPHS_INTERVAL_COUNT = 5
+MIN_VIDEO_PERC = 15
 
 def create_letter(request, user_name):
     r = requests.get("https://www.instagram.com/"+user_name+"/?__a=1")
@@ -46,10 +47,12 @@ def create_letter(request, user_name):
         d["load_time"] = get_formated_time(time.time()-start, '%M:%S.%f')
         
         # Calculate mediana of each kind of user activity
-        d["average_likes"] = get_mediana(media, "likes")
-        d["average_comments"] = get_mediana(media, "comments")
-        d["average_views"] = get_mediana(get_videos(media), "views")
+        d["average_likes"] = "%.2f" %get_mediana(media, "likes")
+        d["average_comments"] = "%.2f" %get_mediana(media, "comments")
+        if (get_video_count(media) != 0):
+            d["average_views"] = "%.2f" %get_mediana(get_videos(media), "views")
 
+        d["likes_to_comments"] = 100/get_mediana(media, "likes")/get_mediana(media, "likes")
         # Get top pubs for each kind of activity
         # 3rd parameter - count of returned media  
         d["top_likes"] = get_top(media, "likes", 5, user_name)
@@ -68,17 +71,22 @@ def create_letter(request, user_name):
         d["activity_likes_graph"] = "appletter/grapdyn_likes_"+user_name+".jpg"
 
         # Create comments dynamic graph
-        create_activity_dinamics(media, "comments", GRAPHS_INTERVAL_COUNT, user_name, "b")
-        d["activity_comments_graph"] = "appletter/grapdyn_comments_"+user_name+".jpg"
+        #create_activity_dinamics(media, "comments", GRAPHS_INTERVAL_COUNT, user_name, "b")
+        #d["activity_comments_graph"] = "appletter/grapdyn_comments_"+user_name+".jpg"
         
         # Create views dynamic graph
-        if (len(get_videos(media)) > GRAPHS_INTERVAL_COUNT):
-            create_activity_dinamics(get_videos(media), "views", GRAPHS_INTERVAL_COUNT, user_name, "y")
-            d["activity_views_graph"] = "appletter/grapdyn_views_"+user_name+".jpg"
+        #if (len(get_videos(media)) > GRAPHS_INTERVAL_COUNT):
+        #    create_activity_dinamics(get_videos(media), "views", GRAPHS_INTERVAL_COUNT, user_name, "y")
+        #    d["activity_views_graph"] = "appletter/grapdyn_views_"+user_name+".jpg"
 
+
+        if (get_video_percent(media) > MIN_VIDEO_PERC):
+            create_video_percantege_chart(media, user_name)
+            d["video_chart"] = "appletter/video_chart_"+user_name+".jpg"
+        
         # Total time of computing
         d["total_time"] = get_formated_time(time.time()-start, '%M:%S.%f')
-        return render(request, 'appletter/index.html', {"input":d})
+        return render(request, 'appletter/letter.html', {"input":d})
     else:
         return HttpResponseBadRequest(u"Haven't found profile")
 

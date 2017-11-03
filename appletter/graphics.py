@@ -3,6 +3,7 @@ import matplotlib
 matplotlib.use('Agg')
 from scipy.interpolate import spline
 from matplotlib import pyplot as plt
+from matplotlib import cm
 
 import numpy as np
 import os
@@ -49,3 +50,22 @@ def create_activity_dinamics(media, type, interval_count, username, clr="b"):
         frameon=None)
 	plt.close()
 	return True
+
+def create_video_percantege_chart(media, username):
+	# Pie chart, where the slices will be ordered and plotted counter-clockwise:
+	labels = 'Videos', 'Photos'
+	v_percentage = get_video_percent(media)
+	sizes = [v_percentage, 100 - v_percentage]
+
+	fig1, ax1 = plt.subplots()
+	ax1.set_color_cycle(['y', 'b'])
+	ax1.pie(sizes, labels=labels, autopct='%1.1f%%',
+	        shadow=True, startangle=90)
+	ax1.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
+
+	plt.savefig("appletter/static/appletter/video_chart_"+username+".jpg",
+		dpi=199, facecolor='w', edgecolor='w',
+        orientation='portrait', papertype=None, format=None,
+        transparent=False, bbox_inches=None, pad_inches=0.1,
+        frameon=None)
+	plt.close()

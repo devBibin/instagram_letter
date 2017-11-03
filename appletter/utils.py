@@ -66,6 +66,12 @@ def get_views(m):
     else:
         return -1
 
+def get_video_count(media):
+    return len(get_videos(media))
+
+def get_video_percent(media):
+    return 100.*get_video_count(media)/len(media)
+
 def iter_baskets_contiguous(items, maxbaskets):
     '''
     generates balanced baskets from iterable, contiguous contents
