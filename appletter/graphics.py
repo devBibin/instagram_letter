@@ -9,9 +9,6 @@ import numpy as np
 import os
 
 
-
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
 def create_activity_dinamics(media, type, interval_count, username, clr="b"):
 	if (len(media) == 0):
 		return False
@@ -35,13 +32,28 @@ def create_activity_dinamics(media, type, interval_count, username, clr="b"):
 	
 	delta = max(y_sm) - min(y_sm)
 
-	plt.xticks(x, x_labels, rotation='horizontal')
-	plt.title("Dynamic of "+type+" on your profile")
+	plt.xticks(x, x_labels, rotation=5)
+	#plt.title("Dynamic of "+type+" on your profile")
 	plt.xlabel('Time')
 	plt.ylabel('Average count of '+type)
-	
+		
 
 	plt.plot(x_smooth, y_smooth, color=clr)
+	
+	# Annotate
+	a_clr = ""
+	for i in range(len(x)):
+		plt.scatter(x[i],y[i],s=10, color=clr)
+		if (i > 0):
+			text = str("%.1f" %((y[i]/get_mediana(media[0:i],"likes")-1)*100))+"%"
+			if (y[i]/y[i-1]-1 > 0):
+				a_clr = "g"
+			else:
+				a_clr = "r"
+		else:
+			text = ""
+		plt.annotate(text, xy=(x[i]-0.15,y[i]+delta*0.05), textcoords='data', color = a_clr)
+	
 	plt.ylim(min(y_sm) - delta * 0.4, max(y_sm) + delta * 0.4)
 	plt.savefig("appletter/static/appletter/grapdyn_"+type+"_"+username+".jpg",
 		dpi=199, facecolor='w', edgecolor='w',

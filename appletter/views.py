@@ -12,9 +12,9 @@ from appletter.utils import *
 from appletter.graphics import *
 
 
-MIN_PUBS_COUNT = 5
-GRAPHS_INTERVAL_COUNT = 5
-MIN_VIDEO_PERC = 15
+MIN_PUBS_COUNT = 6
+GRAPHS_INTERVAL_COUNT = 6
+MIN_VIDEO_PERC = -1
 
 def create_letter(request, user_name):
     r = requests.get("https://www.instagram.com/"+user_name+"/?__a=1")
@@ -52,7 +52,7 @@ def create_letter(request, user_name):
         if (get_video_count(media) != 0):
             d["average_views"] = "%.2f" %get_mediana(get_videos(media), "views")
 
-        d["likes_to_comments"] = 100/get_mediana(media, "likes")/get_mediana(media, "likes")
+        d["likes_to_comments"] = 100/get_mediana(media, "likes")/get_mediana(media, "comments")
         # Get top pubs for each kind of activity
         # 3rd parameter - count of returned media  
         d["top_likes"] = get_top(media, "likes", 5, user_name)
@@ -67,7 +67,7 @@ def create_letter(request, user_name):
 
 
         # Create likes dynamics graph
-        create_activity_dinamics(media, "likes", GRAPHS_INTERVAL_COUNT, user_name, "r")
+        create_activity_dinamics(media, "likes", GRAPHS_INTERVAL_COUNT, user_name, "b")
         d["activity_likes_graph"] = "appletter/grapdyn_likes_"+user_name+".jpg"
 
         # Create comments dynamic graph
