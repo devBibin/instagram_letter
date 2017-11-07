@@ -20,5 +20,10 @@ before_script:
 script:
   - bash run_script.sh
 
+deploy:
+  provider: heroku
+  api_key:
+    secure: "c03860e0-11c9-44e1-853b-5320da4bef05"
+
 notifications:
   email: false
