@@ -23,6 +23,7 @@ script:
 deploy:
   skip_cleanup: true
   provider: heroku
+  app : fathomless-retreat-67208
   api_key:
     secure: "c03860e0-11c9-44e1-853b-5320da4bef05"
 
