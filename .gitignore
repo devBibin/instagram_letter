@@ -1,2 +1,3 @@
 *.pyc
 appletter/static
+appletter/templates

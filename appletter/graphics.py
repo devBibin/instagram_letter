@@ -9,8 +9,13 @@ import numpy as np
 import os
 
 
+# Get dynamics of "type" activity (for example likes)
+# 1) sort all publications be date
+# 2) divide all media by periods (inetrval count)
+# 3) get mediana of each period
+# 4) interpolate between each point
 def create_activity_dinamics(media, type, interval_count, username, clr="b"):
-	if (len(media) == 0):
+	if (len(media) < interval_count):
 		return False
 	
 	sorted_media = sorted(media, key=lambda k: k["created_time"], reverse = False)
@@ -32,7 +37,7 @@ def create_activity_dinamics(media, type, interval_count, username, clr="b"):
 	
 	delta = max(y_sm) - min(y_sm)
 
-	plt.xticks(x, x_labels, rotation=5)
+	plt.xticks(x, x_labels, rotation=8)
 	#plt.title("Dynamic of "+type+" on your profile")
 	plt.xlabel('Time')
 	plt.ylabel('Average count of '+type)
@@ -45,7 +50,7 @@ def create_activity_dinamics(media, type, interval_count, username, clr="b"):
 	for i in range(len(x)):
 		plt.scatter(x[i],y[i],s=10, color=clr)
 		if (i > 0):
-			text = str("%.1f" %((y[i]/get_mediana(media[0:i],"likes")-1)*100))+"%"
+			text = str("%.1f" %((y[i]/y[i-1]-1)*100))+"%"
 			if (y[i]/y[i-1]-1 > 0):
 				a_clr = "g"
 			else:
@@ -63,8 +68,8 @@ def create_activity_dinamics(media, type, interval_count, username, clr="b"):
 	plt.close()
 	return True
 
+# Get pie chart videos and photos
 def create_video_percantege_chart(media, username):
-	# Pie chart, where the slices will be ordered and plotted counter-clockwise:
 	labels = 'Videos', 'Photos'
 	v_percentage = get_video_percent(media)
 	sizes = [v_percentage, 100 - v_percentage]
@@ -76,6 +81,30 @@ def create_video_percantege_chart(media, username):
 	ax1.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
 
 	plt.savefig("appletter/static/appletter/video_chart_"+username+".jpg",
+		dpi=199, facecolor='w', edgecolor='w',
+        orientation='portrait', papertype=None, format=None,
+        transparent=False, bbox_inches=None, pad_inches=0.1,
+        frameon=None)
+	plt.close()
+
+# Followers and followed bar chart
+def create_followers_chart(followers, followed, username):
+	fig, ax = plt.subplots()
+	# For dispalying smallest possible visible bar
+	if (followers/100 > followed):
+		followed = followers/200
+
+	data = [followers, followed]
+	x = [1, 2]
+	f, fd = plt.bar(x, data)
+
+	f.set_facecolor('b')
+	fd.set_facecolor('g')
+	
+	ax.set_xticks(x)
+	ax.set_xticklabels(['Followers', 'Following'])
+
+	plt.savefig("appletter/static/appletter/followers_chart_"+username+".jpg",
 		dpi=199, facecolor='w', edgecolor='w',
         orientation='portrait', papertype=None, format=None,
         transparent=False, bbox_inches=None, pad_inches=0.1,

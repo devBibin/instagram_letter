@@ -33,6 +33,7 @@ def create_letter(request, user_name):
         d["full_name"] = common_data["full_name"]
         d["publication_count"] = common_data["media"]["count"]
 
+
         # Count of publications is not enough (< defined count of pubs)
         if (d["publication_count"] < MIN_PUBS_COUNT):
             return HttpResponseForbidden(u"Not enough publications: "+ str(d["publication_count"]))
@@ -43,6 +44,9 @@ def create_letter(request, user_name):
         if (media == None):
             return HttpResponseForbidden(u"Profile is private")
         
+        d["first_pub"] = get_first_publication_date(media)
+        d["days_from_first_pub"] = get_days_from_first_pub(media)
+
         # Total of creating array
         d["load_time"] = get_formated_time(time.time()-start, '%M:%S.%f')
         
@@ -52,7 +56,11 @@ def create_letter(request, user_name):
         if (get_video_count(media) != 0):
             d["average_views"] = "%.2f" %get_mediana(get_videos(media), "views")
 
-        d["likes_to_comments"] = 100/get_mediana(media, "likes")/get_mediana(media, "comments")
+        d["likes_to_comments"] = "%.2f" %(100*get_mediana(media, "comments")/get_mediana(media, "likes"))
+        if (float(d["likes_to_comments"]) > 1):
+            d["message_likes_to_comments"] = 0
+        else:
+            d["message_likes_to_comments"] = 1
         # Get top pubs for each kind of activity
         # 3rd parameter - count of returned media  
         d["top_likes"] = get_top(media, "likes", 5, user_name)
@@ -69,6 +77,7 @@ def create_letter(request, user_name):
         # Create likes dynamics graph
         create_activity_dinamics(media, "likes", GRAPHS_INTERVAL_COUNT, user_name, "b")
         d["activity_likes_graph"] = "appletter/grapdyn_likes_"+user_name+".jpg"
+        d["message_activity"] = get_dynamic_message(media, "likes", GRAPHS_INTERVAL_COUNT)
 
         # Create comments dynamic graph
         #create_activity_dinamics(media, "comments", GRAPHS_INTERVAL_COUNT, user_name, "b")
@@ -84,7 +93,11 @@ def create_letter(request, user_name):
             create_video_percantege_chart(media, user_name)
             d["video_chart"] = "appletter/video_chart_"+user_name+".jpg"
         
+        create_followers_chart(d["followers"], d["follows"], user_name)
+        d["followers_chart"] = "appletter/followers_chart_"+user_name+".jpg"
+
         # Total time of computing
+        d["followers_to_following"] = "%.2f" %(1.*d["followers"]/d["follows"])
         d["total_time"] = get_formated_time(time.time()-start, '%M:%S.%f')
         return render(request, 'appletter/letter.html', {"input":d})
     else:
