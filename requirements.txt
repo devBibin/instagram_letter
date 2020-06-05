@@ -4,7 +4,7 @@ backports.functools-lru-cache==1.4
 certifi==2017.7.27.1
 chardet==3.0.4
 cycler==0.10.0
-Django==1.11.6
+Django==1.11.29
 gunicorn==19.7.1
 idna==2.6
 matplotlib==2.1.0
