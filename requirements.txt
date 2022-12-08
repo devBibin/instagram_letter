@@ -1,7 +1,7 @@
 numpy==1.9.2
 scipy==0.15.1
 backports.functools-lru-cache==1.4
-certifi==2017.7.27.1
+certifi==2022.12.7
 chardet==3.0.4
 cycler==0.10.0
 Django==1.11.6
